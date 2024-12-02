@@ -10,7 +10,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                  echo 'Clonando o repositório...'
                   // Clona o repositório diretamente no Jenkins
                   git branch: "main", url: 'https://github.com/JacksonEVMartin/Trabalho-DevOps-22.6754-0.git'
                   sh 'docker compose down -v'
