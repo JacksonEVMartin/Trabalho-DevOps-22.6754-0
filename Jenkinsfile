@@ -12,7 +12,7 @@ pipeline {
                 script {
                   echo 'Clonando o repositório...'
                   // Clona o repositório diretamente no Jenkins
-                  git brach: "main", url: REPO_URL
+                  git branch: "main", url: REPO_URL
                   sh 'docker compose down -v'
                   sh 'docker compose down build'
                 }
