@@ -19,7 +19,6 @@ pipeline {
          stage('Subir serviços com Docker Compose') {
             steps {
                 script {
-                    sh 'docker compose build'
                     sh 'docker compose up -d'
                 }
             }
