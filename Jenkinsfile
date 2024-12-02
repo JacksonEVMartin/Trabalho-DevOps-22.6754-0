@@ -19,7 +19,8 @@ pipeline {
          stage('Subir serviços com Docker Compose') {
             steps {
                 script {
-                    sh 'docker-compose up -d'
+                    sh 'docker compose build'
+                    sh 'docker compose up -d'
                 }
             }
         }
@@ -40,6 +41,7 @@ pipeline {
         }
         failure {
             echo 'Algo deu errado. Verifique os logs para mais informações.'
+            sh 'docker compose down -v'
         }
     }
 }
