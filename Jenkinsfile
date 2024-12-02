@@ -24,13 +24,13 @@ pipeline {
             }
         }
 
-        stage('Testar aplicação Flask') {
-            steps {
-                script {
+        // stage('Testar aplicação Flask') {
+            // steps {
+                // script {
                     // sh 'docker exec flask pytest /app/test_app.py'
-                }
-            }
-        }
+                // }
+            // }
+        // }
 
     }
 
