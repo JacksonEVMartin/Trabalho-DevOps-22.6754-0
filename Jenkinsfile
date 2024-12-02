@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/JacksonEVMartin/Trabalho-DevOps-22.6754-0.git'
+        // REPO_URL = 'https://github.com/JacksonEVMartin/Trabalho-DevOps-22.6754-0.git'
         REPO_DIR = 'Trabalho-DevOps-22.6754-0'  // Nome do diretório onde o repositório será clonado
     }
 
@@ -12,7 +12,7 @@ pipeline {
                 script {
                   echo 'Clonando o repositório...'
                   // Clona o repositório diretamente no Jenkins
-                  git branch: "main", url: REPO_URL
+                  git branch: "main", url: 'https://github.com/JacksonEVMartin/Trabalho-DevOps-22.6754-0.git'
                   sh 'docker compose down -v'
                   sh 'docker compose down build'
                 }
