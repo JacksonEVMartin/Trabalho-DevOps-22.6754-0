@@ -7,63 +7,31 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Clonando o repositório') {
             steps {
                 script {
                   // Clona o repositório diretamente no Jenkins
                   git branch: "main", url: 'https://github.com/JacksonEVMartin/Trabalho-DevOps-22.6754-0.git'
-                  sh 'docker-compose down -v'
-                  sh 'docker-compose down build'
                 }
             }
         }
 
-        // stage('Rodar Testes') {
-        //     steps {
-        //         echo 'Executando testes com pytest...'
-        //         sh '''
-        //         cd ${REPO_DIR}/flask
-        //         pip install -r requirements.txt
-        //         pytest --junitxml=report.xml
-        //         '''
-        //     }
-        //     post {
-        //         always {
-        //             junit '${REPO_DIR}/flask/report.xml' // Publica relatório de testes no Jenkins
-        //         }
-        //     }
-        // }
+         stage('Subir serviços com Docker Compose') {
+            steps {
+                script {
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
 
-        // stage('Build Docker Images') {
-        //     steps {
-        //         echo 'Construindo imagens Docker...'
-        //         sh '''
-        //         cd ${REPO_DIR}
-        //         docker-compose build
-        //         '''
-        //     }
-        // }
+        stage('Testar aplicação Flask') {
+            steps {
+                script {
+                    sh 'docker exec flask pytest /app/test_app.py'
+                }
+            }
+        }
 
-        // stage('Deploy') {
-        //     steps {
-        //         echo 'Subindo o ambiente com Docker Compose...'
-        //         sh '''
-        //         cd ${REPO_DIR}
-        //         docker-compose up -d
-        //         '''
-        //     }
-        // }
-
-        // stage('Monitoramento') {
-        //     steps {
-        //         echo 'Verificando o ambiente e serviços...'
-        //         sh '''
-        //         curl -s http://localhost:5000/ || exit 1
-        //         curl -s http://localhost:9090/ || exit 1
-        //         curl -s http://localhost:3000/ || exit 1
-        //         '''
-        //     }
-        // }
     }
 
     post {
