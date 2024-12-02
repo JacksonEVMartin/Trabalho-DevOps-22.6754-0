@@ -12,8 +12,8 @@ pipeline {
                 script {
                   // Clona o repositório diretamente no Jenkins
                   git branch: "main", url: 'https://github.com/JacksonEVMartin/Trabalho-DevOps-22.6754-0.git'
-                  sh 'docker compose down -v'
-                  sh 'docker compose down build'
+                  // sh 'docker compose down -v'
+                  // sh 'docker compose down build'
                 }
             }
         }
