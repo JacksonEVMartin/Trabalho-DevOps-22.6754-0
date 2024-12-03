@@ -24,13 +24,22 @@ pipeline {
             }
         }
 
-        stage('Testar aplicação Flask') {
+        stage('Aguardando serviços') {
             steps {
                 script {
-                    sh 'docker exec flask pytest /app/test_app.py'
+                    sh 'sleep 50' // Aguarda 50 segundos
                 }
             }
         }
+
+        stage('Testar aplicação Flask') {
+            steps {
+                script {
+                    sh 'docker exec flask_app_container pytest /app/test_app.py'
+                }
+            }
+        }
+
 
     }
 
