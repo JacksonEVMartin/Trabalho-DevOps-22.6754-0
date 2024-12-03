@@ -1,51 +1,117 @@
 {
-  "uid": "simple_dashboard",
-  "title": " Dashboard Banco de Dados DevOps",
-  "tags": ["Banco de Dados"],
+  "uid": "monitoramento_http_dashboard",
+  "title": "Monitoramento HTTP - Métricas Detalhadas",
+  "tags": ["HTTP", "Monitoramento", "Performance", "Prometheus"],
   "timezone": "browser",
   "schemaVersion": 16,
   "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
   "panels": [
     {
       "type": "graph",
-      "title": "Prometheus Node Status",
+      "title": "Requisições HTTP por Segundo",
       "datasource": "Prometheus",
-      "gridPos": {
-        "x": 0,
-        "y": 0,
-        "w": 24,
-        "h": 10
-      },
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "up",
-          "legendFormat": "Node {{instance}}",
+          "expr": "rate(http_requests_total[1m])",
+          "legendFormat": "Requisições/s",
           "refId": "A"
         }
       ],
-      "xaxis": {
-        "show": true
-      },
-      "yaxes": [
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1
+    },
+    {
+      "type": "graph",
+      "title": "Tempo Médio de Resposta HTTP",
+      "datasource": "Prometheus",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+      "targets": [
         {
-          "format": "short",
-          "show": true
-        },
-        {
-          "show": true
+          "expr": "rate(http_request_duration_seconds_sum[1m]) / rate(http_request_duration_seconds_count[1m])",
+          "legendFormat": "Tempo Médio (s)",
+          "refId": "B"
         }
       ],
       "lines": true,
-      "fill": 1,
       "linewidth": 2,
-      "points": false,
-      "pointradius": 2
+      "fill": 1
+    },
+    {
+      "type": "graph",
+      "title": "Requisições em Andamento",
+      "datasource": "Prometheus",
+      "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+      "targets": [
+        {
+          "expr": "http_in_flight_requests",
+          "legendFormat": "Em Andamento",
+          "refId": "C"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1
+    },
+    {
+      "type": "graph",
+      "title": "Taxa de Erros HTTP",
+      "datasource": "Prometheus",
+      "gridPos": { "x": 12, "y": 6, "w": 12, "h": 6 },
+      "targets": [
+        {
+          "expr": "rate(http_requests_total{status!~'2..'}[1m])",
+          "legendFormat": "Erros/s",
+          "refId": "D"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1
+    },
+    {
+      "type": "graph",
+      "title": "Uso de CPU do Servidor",
+      "datasource": "Prometheus",
+      "gridPos": { "x": 0, "y": 12, "w": 12, "h": 6 },
+      "targets": [
+        {
+          "expr": "rate(node_cpu_seconds_total[1m])",
+          "legendFormat": "Uso de CPU (%)",
+          "refId": "E"
+        }
+      ],
+      "yaxes": [
+        { "format": "percent", "show": true },
+        { "show": true }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1
+    },
+    {
+      "type": "graph",
+      "title": "Uso de Memória do Servidor",
+      "datasource": "Prometheus",
+      "gridPos": { "x": 12, "y": 12, "w": 12, "h": 6 },
+      "targets": [
+        {
+          "expr": "node_memory_Active_bytes / node_memory_MemTotal_bytes",
+          "legendFormat": "Memória Usada (%)",
+          "refId": "F"
+        }
+      ],
+      "yaxes": [
+        { "format": "percent", "show": true },
+        { "show": true }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1
     }
   ],
-  "refresh": "10s",
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
   "overwrite": true
 }

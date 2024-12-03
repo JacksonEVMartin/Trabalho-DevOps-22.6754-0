@@ -1,0 +1,9 @@
+FROM grafana/grafana:latest
+
+# Copiar os arquivos de provisionamento
+COPY provisioning/datasources.yml /etc/grafana/provisioning/datasources/datasources.yml
+COPY provisioning/dashboards.yml /etc/grafana/provisioning/dashboards/dashboards.yml
+COPY dashboards /var/lib/grafana/dashboards
+
+# Expor a porta padrão do Grafana
+EXPOSE 3000

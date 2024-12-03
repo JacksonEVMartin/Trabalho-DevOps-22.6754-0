@@ -48,22 +48,35 @@ services:
       - default # Conecta o contêiner aos mesmos serviços de rede
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
+    # container_name: prometheus_container
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
       - "9090:9090"
     depends_on:
-      - flask_app
+      - mysqld_exporter
 
   grafana:
-    image: grafana/grafana:latest
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile_grafana
     ports:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
+
+
+  mysqld_exporter:
+    image: prom/mysqld-exporter
+    environment:
+      - DATA_SOURCE_NAME=mysql://flask_user:flask_password@mariadb:3306/school_db
+    ports:
+      - "9104:9104"
+    depends_on:
+      - mariadb
 
 volumes:
   db_data:
